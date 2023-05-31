@@ -8,7 +8,7 @@ const userIcon = <FontAwesomeIcon icon={faUser} />
   export default function SideVav() {
   
     return (
-        <div className="w-32 h-full bg-slate-700 flex flex-col text-white">
+        <div className="w-32 h-full hidden md:flex bg-slate-700 flex flex-col text-white fixed">
             <span className="w-min mx-auto mt-8 hover:cursor-pointer">
                 <div className="icon-container flex flex-col">
                     <div className="icon text-5xl">{chartIcon}</div>
