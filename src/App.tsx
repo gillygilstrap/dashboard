@@ -1,5 +1,5 @@
 import "./App.css";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 import Header from "./Components/Header";
 import SideNav from "./Components/SideNav";
@@ -9,7 +9,7 @@ import OrdersTable from "./Components/OrdersTable";
 import { generateStats } from "./utils/generateStats";
 import { getRange } from "./utils/getRange";
 
-import userDataJson from "./userData.json";
+// import userDataJson from "./userData.json";
 
 // console.table(JSON.parse(JSON.stringify(userDataJson))[0])
 
