@@ -7,7 +7,7 @@ interface OrdersTableProps {
 const StatCard: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
     return (
 
-        <div className="orders-table w-full h-full bg-white rounded-md shadow-md flex flex-col font-bold text-center text-6xl tracking-wider">
+        <div className="orders-table w-full h-full bg-white rounded-md shadow-md flex flex-col font-bold text-center text-6xl tracking-wider hover:cursor-pointer hover:scale-101">
             <div className="my-auto">Orders Table</div>
         </div>
     )
