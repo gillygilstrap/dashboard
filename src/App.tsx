@@ -8,24 +8,41 @@ import GraphCard from "./Components/GraphCard";
 import OrdersTable from "./Components/OrdersTable";
 import { generateStats } from "./utils/generateStats";
 import { getRange } from "./utils/getRange";
+import { getPreviousCount } from "./utils/getPreviousCount";
 
 // import userDataJson from "./userData.json";
 
 // console.table(JSON.parse(JSON.stringify(userDataJson))[0])
 
-const generatedStats = generateStats();
+const fakeStats = generateStats();
+
+let onLoadTraffic = 0;
+let onLoadRegistrations = 0;
+let onLoadEmailsCollected = 0;
+let onLoadProductsSoldCount = 0;
+let onLoadSalesRevenue = 0;
+
+getRange(fakeStats, `30 Days`).forEach((statsObj) => {
+  onLoadTraffic = onLoadTraffic + statsObj!.traffic;
+  onLoadRegistrations = onLoadRegistrations + statsObj!.registrations;
+  onLoadEmailsCollected = onLoadEmailsCollected + statsObj!.emailsCollected;
+  onLoadProductsSoldCount =
+    onLoadProductsSoldCount + statsObj!.products.salesCount;
+  onLoadSalesRevenue = onLoadSalesRevenue + statsObj!.products.totalSalesAmount;
+});
+
 
 function App() {
   const [currentRange, setCurrentRange] = useState(`30 Days`);
-  const [totalTraffic, setTotalTraffic] = useState(0);
-  const [totalRegistrations, setTotalRegistrations] = useState(0);
-  const [totalEmailsCollected, setTotalEmailsCollected] = useState(0);
-  const [totalProductsSoldCount, setTotalProductsSoldCount] = useState(0);
-  const [totalSalesRevenue, setTotalSalesRevenue] = useState(0);
+  const [totalTraffic, setTotalTraffic] = useState(onLoadTraffic);
+  const [totalRegistrations, setTotalRegistrations] = useState(onLoadRegistrations);
+  const [totalEmailsCollected, setTotalEmailsCollected] = useState(onLoadEmailsCollected);
+  const [totalProductsSoldCount, setTotalProductsSoldCount] = useState(onLoadProductsSoldCount);
+  const [totalSalesRevenue, setTotalSalesRevenue] = useState(onLoadSalesRevenue);
 
   const handDateRangeChange = (val: string) => {
     setCurrentRange(val)
-    const currentStatsInRange = getRange(generatedStats, val);
+    const currentStatsInRange = getRange(fakeStats, val);
 
     let totalTraffic = 0;
     let totalRegistrations = 0;
@@ -50,23 +67,23 @@ function App() {
   }
 
   return (
-    <div className="App font-sans min-h-screen w-full overflow-y-scroll">
+    <div className="App font-sans min-h-screen w-full">
       <Header />
-      <div className="main flex w-full h-full mt-20 top-20">
+      <div className="main flex w-full h-full  top-20">
         <SideNav />
 
-        {/* Main dashboard displa section */}
-        <div className="display-board flex flex-col min-h-screen pb-20 w-full px-8 pt-4 bg-slate-100 md:ml-32 overflow-y-scroll">
+        {/* Main dashboard display section */}
+        <div className="display-board flex flex-col min-h-screen pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32">
           <div>
             <label
-              htmlFor="location"
-              className="block text-sm font-medium leading-6 text-gray-900 tracking-wider"
+              htmlFor="timePeriod"
+              className="block text-sm font-medium leading-6 text-gray-900 tracking-wider mt-3"
             >
-              Location
+              Time Period
             </label>
             <select
-              id="location"
-              name="location"
+              id="timePeriod"
+              name="timePeriod"
               className="mt-2 block w-full md:w-1/4 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
               onChange={(e) => handDateRangeChange(e.target.value)}
               value={currentRange}
@@ -81,33 +98,43 @@ function App() {
           <div className="stat-cards flex grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full h-1/12 gap-4 mt-8">
             <StatCard
               title="Total Traffic"
-              count={String(totalTraffic)}
+              count={totalTraffic}
               percentage={"17.46"}
               isPositiveStat={true}
+              previousCount={getPreviousCount(fakeStats, currentRange, `traffic`)}
+              isMoneyStat={false}
             />
             <StatCard
               title="New Registrations"
-              count={String(totalRegistrations)}
+              count={totalRegistrations}
               percentage={"8.32"}
               isPositiveStat={true}
+              previousCount={getPreviousCount(fakeStats, currentRange, `registrations`)}
+              isMoneyStat={false}
             />
             <StatCard
               title="Emails Collected"
-              count={String(totalEmailsCollected)}
+              count={totalEmailsCollected}
               percentage={"4.56"}
               isPositiveStat={false}
+              previousCount={getPreviousCount(fakeStats, currentRange, `emailsCollected`)}
+              isMoneyStat={false}
             />
             <StatCard
               title="Product Sales"
-              count={String(totalProductsSoldCount)}
+              count={totalProductsSoldCount}
               percentage={"10.31"}
               isPositiveStat={true}
+              previousCount={getPreviousCount(fakeStats, currentRange, `productSales`)}
+              isMoneyStat={false}
             />
             <StatCard
               title="Total Revenue"
-              count={`$${totalSalesRevenue.toFixed(2)}`}
+              count={totalSalesRevenue}
               percentage={"9.59"}
               isPositiveStat={true}
+              previousCount={getPreviousCount(fakeStats, currentRange, `totalSales`)}
+              isMoneyStat={true}
             />
           </div>
 

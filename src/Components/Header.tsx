@@ -31,7 +31,7 @@
 
 export default function Header() {
   return (
-    <div className="header flex flex-row justify-between w-full h-20 bg-slate-300 px-20 shadow-md fixed">
+    <div className="header flex flex-row justify-between w-full h-20 bg-slate-300 pl-12 shadow-sm fixed z-10">
       <div className="logo bg-slate-300 my-auto text-2xl tracking-wider font-bold">
         Dashboard
       </div>

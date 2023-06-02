@@ -1,13 +1,22 @@
 import { Day } from "./generateStats";
 import moment from "moment";
 
-export const getRange = (fullYearArray: Day[], currentSelection: string) => {
+export const getRange = (fullYearArray: Day[], currentSelection: string): Day[] => {
   const today = moment(Date.now()).format(`MM/DD/YYYY`);
 
+  // Today
   if (currentSelection === `Today`) {
-    return [fullYearArray.find((day) => day.date === today)];
+    const todayObj = fullYearArray.find((day) => day.date === today);
+
+
+    // Typescript being annoying....
+    if(todayObj !== undefined) {
+      return [todayObj]
+
+    }
   }
 
+  // Week
   if (currentSelection === `Week`) {
     const datesInRange = [today];
 
@@ -21,6 +30,8 @@ export const getRange = (fullYearArray: Day[], currentSelection: string) => {
         return datesInRange.includes(day.date)
     })
   }
+
+  // 30 Days
   if (currentSelection === `30 Days`) {
     const datesInRange = [today];
 
@@ -35,6 +46,7 @@ export const getRange = (fullYearArray: Day[], currentSelection: string) => {
     })
   }
 
+  // Year
   if (currentSelection === `Year`) {
     return fullYearArray;
   }

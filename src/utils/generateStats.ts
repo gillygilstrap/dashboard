@@ -18,7 +18,7 @@ export const generateStats = () => {
     for (let i = 0; i < 365; i++) {
         yearOfStats.push({
             id: i,
-            traffic: Math.floor(Math.random() * 100) + 1,
+            traffic: Math.floor(Math.random() * 200) + 1,
             registrations: Math.floor(Math.random() * 10) + 1,
             emailsCollected: Math.floor(Math.random() * 20) + 1,
             products : {
