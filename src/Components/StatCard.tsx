@@ -9,10 +9,14 @@ interface StatCardProps {
   isPositiveStat: boolean;
   previousCount: number;
   isMoneyStat: boolean;
+  minDateInRange: string;
+  maxDateInRange: string;
 }
 
 const StatCard: React.FC<StatCardProps> = (props: StatCardProps) => {
-  const { count, previousCount, isMoneyStat } = props;
+  const { count, previousCount, isMoneyStat, minDateInRange, maxDateInRange } = props;
+
+  console.log(`minDateInRange, maxDateInRange`, minDateInRange, maxDateInRange)
 
   const isPositvePercentage = count >= previousCount;
 
@@ -39,6 +43,9 @@ const StatCard: React.FC<StatCardProps> = (props: StatCardProps) => {
           )}%`}</span>
         </span>
       </div>
+      <hr/>
+      <div className="text-sm text-slate-400 tracking-wider mt-2">{`${minDateInRange} - ${maxDateInRange}`}</div>
+      <div className="text-sm text-slate-600 tracking-wider">{previousCount}</div>
     </div>
   );
 };
