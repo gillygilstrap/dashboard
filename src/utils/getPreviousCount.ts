@@ -32,7 +32,7 @@ export const getPreviousCount = (
   // Week
   if (timePeriod === timePeriods.WEEK) {
     // Find previous week dates
-    for (let i = 8; i < 14; i++) {
+    for (let i = 7; i < 14; i++) {
       filteredDates.push(
         moment(Date.now()).subtract(i, `days`).format(standardDateFormat)
       );
@@ -48,7 +48,7 @@ export const getPreviousCount = (
   // 30 Days
   if (timePeriod === timePeriods.THIRTY_DAYS) {
     // Find previous 30 dates
-    for (let i = 31; i < 60; i++) {
+    for (let i = 30; i < 60; i++) {
       filteredDates.push(
         moment(Date.now()).subtract(i, `days`).format(standardDateFormat)
       );

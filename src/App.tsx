@@ -7,6 +7,8 @@ import OrdersTable from "./Components/OrdersTable";
 import { generateStats } from "./utils/generateStats";
 import { getRange } from "./utils/getRange";
 import { getPreviousCount } from "./utils/getPreviousCount";
+import { getPreviousRange } from "./utils/getPreviousRange";
+
 import { timePeriods, standardDateFormat } from "./constants";
 
 import { useState } from "react";
@@ -37,12 +39,17 @@ getRange(fakeStats, timePeriods.THIRTY_DAYS).forEach((statsObj) => {
 function App() {
   // State
   const [currentRange, setCurrentRange] = useState(timePeriods.THIRTY_DAYS);
+
+  // State -> Dates
   const [minDateInCurrentRange, setMinDateInCurrentRange] = useState(
     moment(today, standardDateFormat)
       .subtract(29, `days`)
       .format(standardDateFormat)
   );
   const [maxDateInCurrentRange, setMaxDateInCurrentRange] = useState(today);
+  const [minDateInPreviousRange, setMinDateInPreviousRange] = useState(moment(Date.now()).subtract(60, `days`).format(standardDateFormat));
+  const [maxDateInPreviousRange, setMaxDateInPreviousRange] = useState(moment(Date.now()).subtract(30, `days`).format(standardDateFormat));
+
   const [totalTraffic, setTotalTraffic] = useState(onLoadTraffic);
   const [totalRegistrations, setTotalRegistrations] =
     useState(onLoadRegistrations);
@@ -92,6 +99,8 @@ function App() {
 
     setMinDateInCurrentRange(minDateInRange);
     setMaxDateInCurrentRange(maxDateInRange);
+    setMinDateInPreviousRange(getPreviousRange(val).min);
+    setMaxDateInPreviousRange(getPreviousRange(val).max);
 
     setTotalTraffic(totalTraffic);
     setTotalRegistrations(totalRegistrations);
@@ -109,8 +118,8 @@ function App() {
         {/* Main dashboard display section */}
         <div className="display-board flex flex-col min-h-screen pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32">
           {/* Date Range Selection */}
-          <div className="time-container flex flex-col md:flex-row w-full flex-row mt-3">
-            <div>
+          <div className="time-container flex flex-col md:flex-row w-full flex-row mt-3 mb-6">
+            <div className="mb-3 md:mb-0">
               <label
                 htmlFor="timePeriod"
                 className="text-sm font-medium leading-6 text-gray-900 tracking-wider"
@@ -136,19 +145,27 @@ function App() {
 
             <div className="previous-container h-full  md:ml-6 flex flex-col justify-between align-middle pt-2 py-1">
               <button
-                className={`toggle-previous-button h-10 px-4 rounded-lg shadow-md hover:shadow-lg hover:scale-101 font-bold tracking-wider text-slate-700 ${showPreviousDateRange ? `bg-amber-500` : `bg-green-500`}`}
+                className={`toggle-previous-button h-10 px-4 rounded-lg shadow-md hover:shadow-lg hover:scale-101 font-bold tracking-wider text-slate-700 ${
+                  showPreviousDateRange ? `bg-amber-500` : `bg-green-500`
+                }`}
                 onClick={() => setShowPreviousDateRange(!showPreviousDateRange)}
               >
                 {showPreviousDateRange
                   ? `Hide Previous Date Range`
-                  : `Show Previous Date Range`}
+                  : `Compare Previous Date Range`}
               </button>
 
-              <div className={`previous-date-range mx-auto text-amber-500 ${showPreviousDateRange ? `` : `hidden`}`}>06/02/2023 - 06/02/2023</div>
+              <div
+                className={`previous-date-range mx-auto text-amber-500 ${
+                  showPreviousDateRange ? `` : `hidden`
+                }`}
+              >
+                {`${minDateInPreviousRange} - ${maxDateInPreviousRange}`}
+              </div>
             </div>
           </div>
 
-          <div className="stat-cards flex grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full h-1/12 gap-4 mt-8">
+          <div className="stat-cards flex grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full h-1/12 gap-4">
             <StatCard
               title="Total Traffic"
               count={totalTraffic}
@@ -169,6 +186,10 @@ function App() {
                 standardDateFormat
               ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
+              previousRange={{
+                min: minDateInPreviousRange,
+                max: maxDateInPreviousRange,
+              }}
             />
             <StatCard
               title="New Registrations"
@@ -190,6 +211,10 @@ function App() {
                 standardDateFormat
               ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
+              previousRange={{
+                min: minDateInPreviousRange,
+                max: maxDateInPreviousRange,
+              }}
             />
             <StatCard
               title="Emails Collected"
@@ -211,6 +236,10 @@ function App() {
                 standardDateFormat
               ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
+              previousRange={{
+                min: minDateInPreviousRange,
+                max: maxDateInPreviousRange,
+              }}
             />
             <StatCard
               title="Product Sales"
@@ -232,6 +261,10 @@ function App() {
                 standardDateFormat
               ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
+              previousRange={{
+                min: minDateInPreviousRange,
+                max: maxDateInPreviousRange,
+              }}
             />
             <StatCard
               title="Total Revenue"
@@ -247,6 +280,10 @@ function App() {
               minDateInRange={minDateInCurrentRange}
               maxDateInRange={maxDateInCurrentRange}
               showPreviousDateRange={showPreviousDateRange}
+              previousRange={{
+                min: minDateInPreviousRange,
+                max: maxDateInPreviousRange,
+              }}
             />
           </div>
 

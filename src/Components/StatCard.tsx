@@ -1,6 +1,7 @@
 import React from "react";
 
 import { calculateStatPercentage } from "../utils/calculateStatPercentage";
+import {previousRange} from '../utils/getPreviousRange'
 
 interface StatCardProps {
   title: string;
@@ -12,10 +13,11 @@ interface StatCardProps {
   minDateInRange: string;
   maxDateInRange: string;
   showPreviousDateRange: boolean;
+  previousRange: previousRange
 }
 
 const StatCard: React.FC<StatCardProps> = (props: StatCardProps) => {
-  const { count, previousCount, isMoneyStat, minDateInRange, maxDateInRange, showPreviousDateRange } =
+  const { count, previousCount, isMoneyStat, minDateInRange, maxDateInRange, showPreviousDateRange, previousRange } =
     props;
 
   console.log(`minDateInRange, maxDateInRange`, minDateInRange, maxDateInRange);
@@ -46,7 +48,7 @@ const StatCard: React.FC<StatCardProps> = (props: StatCardProps) => {
             )}%`}</span>
           </span>
         </div>
-        <div className="text-sm text-amber-500 tracking-wider w-full border-t border-slate-300 pt-1">{`${minDateInRange} - ${maxDateInRange}`}</div>
+        <div className="text-sm text-amber-500 tracking-wider w-full border-t border-slate-300 pt-1">{`${previousRange.min} - ${previousRange.max}`}</div>
         <div className="text-sm text-slate-600 tracking-wider font-bold">
           {previousCount}
         </div>
