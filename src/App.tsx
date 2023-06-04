@@ -2,23 +2,30 @@ import "./App.css";
 import Header from "./Components/Header";
 import SideNav from "./Components/SideNav";
 import StatCard from "./Components/StatCard";
-import GraphCard from "./Components/GraphCard";
+import ChartCard from "./Components/ChartCard";
 import OrdersTable from "./Components/OrdersTable";
+
 import { generateStats } from "./utils/generateStats";
 import { getRange } from "./utils/getRange";
 import { getPreviousCount } from "./utils/getPreviousCount";
 import { getPreviousRange } from "./utils/getPreviousRange";
+import { randomYearValues } from "./utils/randomYearValues";
+import { buildLineChartData } from "./utils/buildLineChartData";
+import { buildBarChartData } from "./utils/buildBarChartData";
+
+import { chartTypes } from "./constants";
 
 import { timePeriods, standardDateFormat } from "./constants";
 
 import { useState } from "react";
 import moment from "moment";
-// import userDataJson from "./userData.json";
+import userDataJson from "./userData.json";
 
-// console.table(JSON.parse(JSON.stringify(userDataJson))[0])
+console.log(`One user----`, JSON.parse(JSON.stringify(userDataJson))[0].results[0])
 
 const fakeStats = generateStats();
 const today = moment(Date.now()).format(standardDateFormat);
+const randomPreviousYearValues = randomYearValues();
 
 let onLoadTraffic = 0;
 let onLoadRegistrations = 0;
@@ -27,7 +34,8 @@ let onLoadProductsSoldCount = 0;
 let onLoadSalesRevenue = 0;
 
 // Build on load fake data
-getRange(fakeStats, timePeriods.THIRTY_DAYS).forEach((statsObj) => {
+const initialRange = getRange(fakeStats, timePeriods.THIRTY_DAYS);
+initialRange.forEach((statsObj) => {
   onLoadTraffic = onLoadTraffic + statsObj!.traffic;
   onLoadRegistrations = onLoadRegistrations + statsObj!.registrations;
   onLoadEmailsCollected = onLoadEmailsCollected + statsObj!.emailsCollected;
@@ -36,7 +44,13 @@ getRange(fakeStats, timePeriods.THIRTY_DAYS).forEach((statsObj) => {
   onLoadSalesRevenue = onLoadSalesRevenue + statsObj!.products.totalSalesAmount;
 });
 
+const foo = buildLineChartData(initialRange, timePeriods.THIRTY_DAYS)
+const bar = buildBarChartData(initialRange, timePeriods.THIRTY_DAYS);
+
 function App() {
+  const [fooState, setFooState ] = useState(foo)
+  const [barState, setBarState ] = useState(bar)
+
   // State
   const [currentRange, setCurrentRange] = useState(timePeriods.THIRTY_DAYS);
 
@@ -47,8 +61,12 @@ function App() {
       .format(standardDateFormat)
   );
   const [maxDateInCurrentRange, setMaxDateInCurrentRange] = useState(today);
-  const [minDateInPreviousRange, setMinDateInPreviousRange] = useState(moment(Date.now()).subtract(60, `days`).format(standardDateFormat));
-  const [maxDateInPreviousRange, setMaxDateInPreviousRange] = useState(moment(Date.now()).subtract(30, `days`).format(standardDateFormat));
+  const [minDateInPreviousRange, setMinDateInPreviousRange] = useState(
+    moment(Date.now()).subtract(59, `days`).format(standardDateFormat)
+  );
+  const [maxDateInPreviousRange, setMaxDateInPreviousRange] = useState(
+    moment(Date.now()).subtract(30, `days`).format(standardDateFormat)
+  );
 
   const [totalTraffic, setTotalTraffic] = useState(onLoadTraffic);
   const [totalRegistrations, setTotalRegistrations] =
@@ -124,7 +142,7 @@ function App() {
                 htmlFor="timePeriod"
                 className="text-sm font-medium leading-6 text-gray-900 tracking-wider"
               >
-                <div className="w-full text-left">Date Range:</div>
+                <div className="w-full text-left">Current Date Range:</div>
                 <div className="text-lg text-left w-full ">
                   {`${minDateInCurrentRange} - ${maxDateInCurrentRange}`}
                 </div>
@@ -136,10 +154,10 @@ function App() {
                 onChange={(e) => handDateRangeChange(e.target.value)}
                 value={currentRange}
               >
-                <option>Today</option>
-                <option>Week</option>
-                <option>30 Days</option>
-                <option>Year</option>
+                <option value={timePeriods.TODAY}>Today</option>
+                <option value={timePeriods.WEEK}>Week</option>
+                <option value={timePeriods.THIRTY_DAYS}>30 Days</option>
+                <option value={timePeriods.YEAR}>Year</option>
               </select>
             </div>
 
@@ -167,24 +185,16 @@ function App() {
 
           <div className="stat-cards flex grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full h-1/12 gap-4">
             <StatCard
-              title="Total Traffic"
+              title="Website Traffic"
               count={totalTraffic}
-              percentage={"17.46"}
               isPositiveStat={true}
               previousCount={getPreviousCount(
                 fakeStats,
                 currentRange,
-                `traffic`
+                `traffic`,
+                randomPreviousYearValues
               )}
               isMoneyStat={false}
-              minDateInRange={moment(
-                minDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
-              maxDateInRange={moment(
-                maxDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
               previousRange={{
                 min: minDateInPreviousRange,
@@ -194,22 +204,14 @@ function App() {
             <StatCard
               title="New Registrations"
               count={totalRegistrations}
-              percentage={"8.32"}
               isPositiveStat={true}
               previousCount={getPreviousCount(
                 fakeStats,
                 currentRange,
-                `registrations`
+                `registrations`,
+                randomPreviousYearValues
               )}
               isMoneyStat={false}
-              minDateInRange={moment(
-                minDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
-              maxDateInRange={moment(
-                maxDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
               previousRange={{
                 min: minDateInPreviousRange,
@@ -219,22 +221,14 @@ function App() {
             <StatCard
               title="Emails Collected"
               count={totalEmailsCollected}
-              percentage={"4.56"}
               isPositiveStat={false}
               previousCount={getPreviousCount(
                 fakeStats,
                 currentRange,
-                `emailsCollected`
+                `emailsCollected`,
+                randomPreviousYearValues
               )}
               isMoneyStat={false}
-              minDateInRange={moment(
-                minDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
-              maxDateInRange={moment(
-                maxDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
               previousRange={{
                 min: minDateInPreviousRange,
@@ -244,22 +238,14 @@ function App() {
             <StatCard
               title="Product Sales"
               count={totalProductsSoldCount}
-              percentage={"10.31"}
               isPositiveStat={true}
               previousCount={getPreviousCount(
                 fakeStats,
                 currentRange,
-                `productSales`
+                `productSales`,
+                randomPreviousYearValues
               )}
               isMoneyStat={false}
-              minDateInRange={moment(
-                minDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
-              maxDateInRange={moment(
-                maxDateInCurrentRange,
-                standardDateFormat
-              ).format(`MM/DD/YY`)}
               showPreviousDateRange={showPreviousDateRange}
               previousRange={{
                 min: minDateInPreviousRange,
@@ -269,16 +255,14 @@ function App() {
             <StatCard
               title="Total Revenue"
               count={totalSalesRevenue}
-              percentage={"9.59"}
               isPositiveStat={true}
               previousCount={getPreviousCount(
                 fakeStats,
                 currentRange,
-                `totalSales`
+                `totalSales`,
+                randomPreviousYearValues
               )}
               isMoneyStat={true}
-              minDateInRange={minDateInCurrentRange}
-              maxDateInRange={maxDateInCurrentRange}
               showPreviousDateRange={showPreviousDateRange}
               previousRange={{
                 min: minDateInPreviousRange,
@@ -287,13 +271,35 @@ function App() {
             />
           </div>
 
-          <div className="graph-cards flex grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full h-2/6 gap-4 mt-8">
-            <GraphCard />
-            <GraphCard />
-            <GraphCard />
+          <div className="chart-cards flex grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4 mt-8">
+            
+            {/* Line Chart */}
+            <ChartCard
+              type={chartTypes.LINE}
+              data={fooState!}
+            />
+
+            {/* Bar Chart */}
+            <ChartCard
+              type={chartTypes.BAR}
+              data={barState!}
+            />
+            {/* Pie Chart */}
+            <ChartCard
+              type={chartTypes.PIE}
+              data={{
+                labels: [`EBook`, `New Subscriptions`, `Consulting`,],
+                datasets: [
+                  {
+                    label: `Product Sales`,
+                    data: [12, 42, 18, ],
+                  },
+                ],
+              }}
+            />
           </div>
 
-          <div className="orders-table-container mt-8 h-screen">
+          <div className="orders-table-container mt-8">
             <OrdersTable />
           </div>
         </div>

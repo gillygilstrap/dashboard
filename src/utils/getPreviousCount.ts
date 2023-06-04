@@ -1,5 +1,7 @@
 import { Day } from "./generateStats";
 import { timePeriods, standardDateFormat } from "../constants";
+import { YearValues } from "../utils/randomYearValues";
+
 import moment from "moment";
 
 interface CountObj {
@@ -10,8 +12,9 @@ interface CountObj {
 export const getPreviousCount = (
   fullYearStats: Day[],
   timePeriod: string,
-  valType: string
-): number => {
+  valType: string,
+  randomYearValues: YearValues
+  ): number => {
   const countObjs = mapToCountObjs(fullYearStats, valType);
   let filteredDates: string[] = [];
   let count = 0;
@@ -54,6 +57,7 @@ export const getPreviousCount = (
       );
     }
 
+    
     countObjs.forEach(({ val, day }) => {
       if (filteredDates.includes(day)) {
         count = count + val;
@@ -63,9 +67,9 @@ export const getPreviousCount = (
   // Year
   if (timePeriod === timePeriods.YEAR) {
     // For previous year just get random number
-    return getRandomValueForPreviousYear(valType);
+    return getRandomValueForPreviousYear(valType, randomYearValues);
   }
-
+  
   return count;
 };
 
@@ -124,21 +128,21 @@ const mapToCountObjs = (fullYearStats: Day[], valType: string): CountObj[] => {
   ];
 };
 
-const getRandomValueForPreviousYear = (valType: string) => {
+const getRandomValueForPreviousYear = (valType: string, randomYearValues: YearValues) => {
   if (valType === `traffic`) {
-    return Math.floor(Math.random() * 5000) + 33000;
+    return randomYearValues.traffic;
   }
   if (valType === `registrations`) {
-    return Math.floor(Math.random() * 300) + 1800;
+    return randomYearValues.registrations;
   }
   if (valType === `emailsCollected`) {
-    return Math.floor(Math.random() * 1500) + 2500;
+    return randomYearValues.emailsCollected;
   }
   if (valType === `productSales`) {
-    return Math.floor(Math.random() * 150) + 800;
+    return randomYearValues.productSales;
   }
   if (valType === `totalSales`) {
-    return Math.floor(Math.random() * 2000) + 17000;
+    return randomYearValues.totalSales;
   }
 
   return 0;

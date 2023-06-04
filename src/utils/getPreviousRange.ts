@@ -1,4 +1,3 @@
-import { Day } from "./generateStats";
 import { timePeriods, standardDateFormat } from "../constants";
 import moment from "moment";
 
@@ -43,7 +42,6 @@ export const getPreviousRange = (timePeriod: string): previousRange => {
   }
   // Year
   if (timePeriod === timePeriods.YEAR) {
-    console.log(`Does this get hit???`);
     for (let i = 365; i < 730; i++) {
       filteredDates.push(
         moment(Date.now()).subtract(i, `days`).format(standardDateFormat)
