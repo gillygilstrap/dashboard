@@ -52,14 +52,15 @@ const people = [
     email: "lindsay.walton@example.com",
     role: "Member",
   },
-  // More people...
 ];
 const StatCard: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
   return (
     <div className="orders-table w-full h-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl  hover:cursor-pointer hover:scale-1002">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="-mx-4 mt-6 sm:-mx-0">
-            <div className="text-6xl text-left tracking wide text-slate-700 mb-6 tracking-wider">Orders Table</div>
+          <div className="text-6xl text-left tracking wide text-slate-700 mb-6 tracking-wider">
+            Orders Table
+          </div>
           <table className="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>

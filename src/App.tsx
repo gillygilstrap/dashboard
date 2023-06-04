@@ -1,4 +1,3 @@
-import "./App.css";
 import Header from "./Components/Header";
 import SideNav from "./Components/SideNav";
 import StatCard from "./Components/StatCard";
@@ -21,7 +20,10 @@ import { useState } from "react";
 import moment from "moment";
 import userDataJson from "./userData.json";
 
-console.log(`One user----`, JSON.parse(JSON.stringify(userDataJson))[0].results[0])
+console.log(
+  `One user----`,
+  JSON.parse(JSON.stringify(userDataJson))[0].results[0]
+);
 
 const fakeStats = generateStats();
 const today = moment(Date.now()).format(standardDateFormat);
@@ -44,12 +46,18 @@ initialRange.forEach((statsObj) => {
   onLoadSalesRevenue = onLoadSalesRevenue + statsObj!.products.totalSalesAmount;
 });
 
-const foo = buildLineChartData(initialRange, timePeriods.THIRTY_DAYS)
-const bar = buildBarChartData(initialRange, timePeriods.THIRTY_DAYS);
+const onloadLineChartData = buildLineChartData(
+  initialRange,
+  timePeriods.THIRTY_DAYS
+);
+const onloadBarChartData = buildBarChartData(
+  initialRange,
+  timePeriods.THIRTY_DAYS
+);
 
 function App() {
-  const [fooState, setFooState ] = useState(foo)
-  const [barState, setBarState ] = useState(bar)
+  const [lineChartData, setLineChartData] = useState(onloadLineChartData);
+  const [barChartData, setBarChartData] = useState(onloadBarChartData);
 
   // State
   const [currentRange, setCurrentRange] = useState(timePeriods.THIRTY_DAYS);
@@ -84,6 +92,16 @@ function App() {
 
   // Methods
   const handDateRangeChange = (val: string) => {
+    // ******************************************
+    // ******************************************
+    // ******************************************
+    // Temoporary TypeScript Warning Fix/Hack
+    setLineChartData(onloadLineChartData);
+    setBarChartData(onloadBarChartData);
+    // ******************************************
+    // ******************************************
+    // ******************************************
+
     setCurrentRange(val);
     const currentStatsInRange = getRange(fakeStats, val);
 
@@ -272,27 +290,20 @@ function App() {
           </div>
 
           <div className="chart-cards flex grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-4 mt-8">
-            
             {/* Line Chart */}
-            <ChartCard
-              type={chartTypes.LINE}
-              data={fooState!}
-            />
+            <ChartCard type={chartTypes.LINE} data={lineChartData!} />
 
             {/* Bar Chart */}
-            <ChartCard
-              type={chartTypes.BAR}
-              data={barState!}
-            />
+            <ChartCard type={chartTypes.BAR} data={barChartData!} />
             {/* Pie Chart */}
             <ChartCard
               type={chartTypes.PIE}
               data={{
-                labels: [`EBook`, `New Subscriptions`, `Consulting`,],
+                labels: [`EBook`, `New Subscriptions`, `Consulting`],
                 datasets: [
                   {
                     label: `Product Sales`,
-                    data: [12, 42, 18, ],
+                    data: [12, 42, 18],
                   },
                 ],
               }}
