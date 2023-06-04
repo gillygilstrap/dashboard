@@ -1,4 +1,7 @@
 import { Day } from "./generateStats";
+import { timePeriods, standardDateFormat } from "../constants";
+import { YearValues } from "../utils/randomYearValues";
+
 import moment from "moment";
 
 interface CountObj {
@@ -9,17 +12,18 @@ interface CountObj {
 export const getPreviousCount = (
   fullYearStats: Day[],
   timePeriod: string,
-  valType: string
-): number => {
+  valType: string,
+  randomYearValues: YearValues
+  ): number => {
   const countObjs = mapToCountObjs(fullYearStats, valType);
   let filteredDates: string[] = [];
   let count = 0;
 
   // Today
-  if (timePeriod === "Today") {
+  if (timePeriod === timePeriods.TODAY) {
     const yesterday = moment(Date.now())
       .subtract(1, `days`)
-      .format("MM/DD/YYYY");
+      .format(standardDateFormat);
     const todayObj = countObjs.find((countObj) => countObj.day === yesterday);
 
     // Typescript being annoying....
@@ -29,11 +33,11 @@ export const getPreviousCount = (
   }
 
   // Week
-  if (timePeriod === `Week`) {
+  if (timePeriod === timePeriods.WEEK) {
     // Find previous week dates
-    for (let i = 8; i < 14; i++) {
+    for (let i = 7; i < 14; i++) {
       filteredDates.push(
-        moment(Date.now()).subtract(i, `days`).format(`MM/DD/YYYY`)
+        moment(Date.now()).subtract(i, `days`).format(standardDateFormat)
       );
     }
 
@@ -45,14 +49,15 @@ export const getPreviousCount = (
   }
 
   // 30 Days
-  if (timePeriod === `30 Days`) {
+  if (timePeriod === timePeriods.THIRTY_DAYS) {
     // Find previous 30 dates
-    for (let i = 31; i < 60; i++) {
+    for (let i = 30; i < 60; i++) {
       filteredDates.push(
-        moment(Date.now()).subtract(i, `days`).format(`MM/DD/YYYY`)
+        moment(Date.now()).subtract(i, `days`).format(standardDateFormat)
       );
     }
 
+    
     countObjs.forEach(({ val, day }) => {
       if (filteredDates.includes(day)) {
         count = count + val;
@@ -60,11 +65,11 @@ export const getPreviousCount = (
     });
   }
   // Year
-  if (timePeriod === `Year`) {
+  if (timePeriod === timePeriods.YEAR) {
     // For previous year just get random number
-    return getRandomValueForPreviousYear(valType);
+    return getRandomValueForPreviousYear(valType, randomYearValues);
   }
-
+  
   return count;
 };
 
@@ -99,19 +104,19 @@ const mapToCountObjs = (fullYearStats: Day[], valType: string): CountObj[] => {
   // Product Sales Amount
   if (valType === "productSales") {
     return fullYearStats.map((statObj) => {
-        return {
-          val: statObj.products.salesCount,
-          day: statObj.date,
-        };
+      return {
+        val: statObj.products.salesCount,
+        day: statObj.date,
+      };
     });
   }
   // Total Sales Amount
   if (valType === "totalSales") {
     return fullYearStats.map((statObj) => {
-        return {
-          val: statObj.products.totalSalesAmount,
-          day: statObj.date,
-        };
+      return {
+        val: statObj.products.totalSalesAmount,
+        day: statObj.date,
+      };
     });
   }
 
@@ -123,21 +128,21 @@ const mapToCountObjs = (fullYearStats: Day[], valType: string): CountObj[] => {
   ];
 };
 
-const getRandomValueForPreviousYear = (valType: string) => {
+const getRandomValueForPreviousYear = (valType: string, randomYearValues: YearValues) => {
   if (valType === `traffic`) {
-    return Math.floor(Math.random() * 5000) + 33000;
+    return randomYearValues.traffic;
   }
   if (valType === `registrations`) {
-    return Math.floor(Math.random() * 300) + 1800;
+    return randomYearValues.registrations;
   }
   if (valType === `emailsCollected`) {
-    return Math.floor(Math.random() * 1500) + 2500;
+    return randomYearValues.emailsCollected;
   }
   if (valType === `productSales`) {
-    return Math.floor(Math.random() * 150) + 800;
+    return randomYearValues.productSales;
   }
   if (valType === `totalSales`) {
-    return Math.floor(Math.random() * 2000) + 17000;
+    return randomYearValues.totalSales;
   }
 
   return 0;
