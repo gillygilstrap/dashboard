@@ -30,7 +30,7 @@ const getTitle = (type: string): string => {
 const StatCard: React.FC<ChartCardProps> = (props: ChartCardProps) => {
   const { type, data } = props;
   return (
-    <div className="chart-card p-4 w-full h-full bg-white rounded-md shadow-md hover:shadow-lg hover:cursor-pointer hover:scale-1002 flex flex-col text-center text-4xl tracking-wider">
+    <div className="chart-card text-slate-700 p-4 w-full h-full bg-white rounded-md shadow-md hover:shadow-lg hover:cursor-pointer hover:scale-1002 flex flex-col text-center text-4xl tracking-wider">
       <div className={`${type === chartTypes.LINE ? "" : "hidden"}`}>
         <LineChart chartData={data} />
       </div>
