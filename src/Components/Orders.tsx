@@ -8,7 +8,7 @@ const Orders = () => {
 
   return (
     <div className="mt-8">
-      <OrdersTable orders={orders} />
+      <OrdersTable orders={orders} isMainDashboardInstance={false} />
     </div>
   );
 };

@@ -263,7 +263,7 @@ const MainDashboard = () => {
       </div>
 
       <div className="orders-table-container mt-8">
-        <OrdersTable orders={orders} />
+        <OrdersTable orders={orders} isMainDashboardInstance={true} />
       </div>
     </div>
   );
