@@ -38,7 +38,7 @@ const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
   }
   return (
     <div
-      className={`orders-table w-full h-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl ${
+      className={`orders-table w-full  pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl ${
         isMainDashboardInstance ? "hover:cursor-pointer hover:scale-1002" : ""
       }`}
       onClick={() => handleTableClickOnMainDashboard()}
