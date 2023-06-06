@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { formatMoney } from "../utils/formatMoney";
 
 export interface Order {
@@ -11,17 +12,37 @@ export interface Order {
 
 interface OrdersTableProps {
   orders: Order[];
+  isMainDashboardInstance: boolean;
 }
 
 const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
-  const { orders } = props;
-  const sortedOrders = orders.sort(
+  const { orders, isMainDashboardInstance } = props;
+  const navigate = useNavigate();
+
+  const handleTableClickOnMainDashboard = () => {
+    if(isMainDashboardInstance) {
+      navigate(`/orders`)
+
+      // Scroll to top of page
+      window.scrollTo(0, 0);
+    }
+  }
+
+  let sortedOrders = orders.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );
 
-  console.table(sortedOrders);
+  // Time the rows down to 10 for the MainDashboard Screen
+  if (isMainDashboardInstance) {
+    sortedOrders = sortedOrders.slice(0, 9);
+  }
   return (
-    <div className="orders-table w-full h-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl  hover:cursor-pointer hover:scale-1002">
+    <div
+      className={`orders-table w-full h-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl ${
+        isMainDashboardInstance ? "hover:cursor-pointer hover:scale-1002" : ""
+      }`}
+      onClick={() => handleTableClickOnMainDashboard()}
+    >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="-mx-4 mt-6 sm:-mx-0">
           <div className="text-4xl md:text-6xl md:text-left tracking wide text-slate-700 mb-6 tracking-wider text-center">
@@ -66,7 +87,7 @@ const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {sortedOrders.slice(0, 9).map((order) => (
+              {sortedOrders.map((order) => (
                 <tr key={order.email}>
                   <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-slate-700 sm:w-auto sm:max-w-none sm:pl-0">
                     {order.name}
