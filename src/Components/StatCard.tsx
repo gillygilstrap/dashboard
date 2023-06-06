@@ -26,7 +26,7 @@ const StatCard: React.FC<StatCardProps> = (props: StatCardProps) => {
   const isPositvePercentage = count >= previousCount;
 
   return (
-    <div className="stat-card w-full h-full bg-white rounded-md shadow-md flex flex-col text-center justify-around py-4">
+    <div className="stat-card w-full bg-white rounded-md shadow-md flex flex-col text-center justify-around py-4">
       <div className="title text-2xl tracking-wider font-bold text-slate-700">
         {props.title}
       </div>

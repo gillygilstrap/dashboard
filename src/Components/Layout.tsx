@@ -125,9 +125,9 @@ const Layout: React.FC = () => {
 
   return (
     <AppContext.Provider value={contextValue}>
-      <div className="App font-sans min-h-screen w-full">
+      <div className="App font-sans w-full">
         <Header />
-        <div className="main flex w-full h-full top-20">
+        <div className="main flex w-full top-20">
           <SideNav />
           <div className="pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32">
             <Outlet />

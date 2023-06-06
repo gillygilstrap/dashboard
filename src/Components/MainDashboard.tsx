@@ -153,7 +153,7 @@ const MainDashboard = () => {
         </div>
       </div>
 
-      <div className="stat-cards flex grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full h-1/12 gap-4">
+      <div className="stat-cards flex grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full gap-4">
         <StatCard
           title="Website Traffic"
           count={totalTraffic}
