@@ -1,16 +1,16 @@
 import { useContext } from "react";
 import moment from "moment";
 
-import StatCard from "../Components/StatCard";
-import ChartCard from "../Components/ChartCard";
-import OrdersTable from "../Components/OrdersTable";
+import StatCard from "../StatCard";
+import ChartCard from "../ChartCard";
+import OrdersTable from "../OrdersTable";
 
-import { getRange } from "../utils/getRange";
-import { getPreviousRange } from "../utils/getPreviousRange";
-import { getPreviousCount } from "../utils/getPreviousCount";
-import { chartTypes, timePeriods, standardDateFormat } from "../constants";
+import { getRange } from "../../utils/getRange";
+import { getPreviousRange } from "../../utils/getPreviousRange";
+import { getPreviousCount } from "../../utils/getPreviousCount";
+import { chartTypes, timePeriods, standardDateFormat } from "../../constants";
 
-import { AppContext } from "../Components/Layout";
+import { AppContext } from "./Layout";
 
 const MainDashboard = () => {
   // State context from decendant Parent

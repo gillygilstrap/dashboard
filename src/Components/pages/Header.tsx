@@ -61,13 +61,13 @@ export default function Header() {
 
         <NavLink
           to="orders"
-          className="w-full h-14 pl-6 hover:cursor-pointer border-b border-slate-400 flex hover:bg-slate-400"
+          className="w-full h-14 pl-6 hover:cursor-pointer border-b border-slate-500 flex bg-slate-500 text-slate-200"
           onClick={() => handleHamburgerItemClick()}
         >
           <div className="my-auto">Orders</div>
         </NavLink>
         <NavLink
-          to="/"
+          to="users"
           className="w-full h-14 pl-6 hover:cursor-pointer border-b border-slate-400 flex hover:bg-slate-400"
           onClick={() => handleHamburgerItemClick()}
         >

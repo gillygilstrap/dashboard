@@ -1,14 +1,15 @@
 import React, { useState, createContext } from "react";
 import Header from "./Header";
-import SideNav from "./SideNav";
+import SideNav from "../SideNav";
 
-import { timePeriods, standardDateFormat } from "../constants";
-import { generateStats } from "../utils/generateStats";
-import { getRange } from "../utils/getRange";
-import { randomYearValues } from "../utils/randomYearValues";
-import { buildLineChartData } from "../utils/buildLineChartData";
-import { buildBarChartData } from "../utils/buildBarChartData";
-import { generateOrders } from "../utils/generateOrders";
+import { timePeriods, standardDateFormat } from "../../constants";
+import { generateStats } from "../../utils/generateStats";
+import { getRange } from "../../utils/getRange";
+import { randomYearValues } from "../../utils/randomYearValues";
+import { buildLineChartData } from "../../utils/buildLineChartData";
+import { buildBarChartData } from "../../utils/buildBarChartData";
+import { generateOrders } from "../../utils/generateOrders";
+import { generateUsers } from "../../utils/generateUsers";
 
 import { Outlet } from "react-router-dom";
 import moment from "moment";
@@ -19,6 +20,7 @@ const fakeStats = generateStats();
 const today = moment(Date.now()).format(standardDateFormat);
 const randomPreviousYearValues = randomYearValues();
 const orders = generateOrders();
+const users = generateUsers();
 
 let onLoadTraffic = 0;
 let onLoadRegistrations = 0;
@@ -121,6 +123,9 @@ const Layout: React.FC = () => {
 
     // Orders
     orders,
+     
+    // Users
+    users
   };
 
   return (

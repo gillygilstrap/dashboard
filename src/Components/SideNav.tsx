@@ -39,7 +39,7 @@ export default function SideVav() {
         </div>
       </NavLink>
       <NavLink
-        to="/"
+        to="users"
         className="w-min mx-auto mt-8 hover:cursor-pointer hover:scale-105 hover:text-slate-200"
         onClick={() => handleClick()}
       >
