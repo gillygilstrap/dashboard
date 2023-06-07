@@ -1,6 +1,7 @@
-import Layout from "./Components/Layout";
-import MainDashboard from "./Components/MainDashboard";
-import Orders from "./Components/Orders";
+import Layout from "./Components/pages/Layout";
+import MainDashboard from "./Components/pages/MainDashboard";
+import Orders from "./Components/pages/Orders";
+import Users from "./Components/pages/Users";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -13,6 +14,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       <Route index element={<MainDashboard />} />
       <Route path="orders" element={<Orders />} />
+      <Route path="users" element={<Users />} />
     </Route>
   )
 );

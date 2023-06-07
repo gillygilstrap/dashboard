@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { AppContext } from "../Components/Layout";
+import { AppContext } from "./Layout";
 
-import OrdersTable from "../Components/OrdersTable";
+import OrdersTable from "../OrdersTable";
 
 const Orders = () => {
   const { orders } = useContext(AppContext);
