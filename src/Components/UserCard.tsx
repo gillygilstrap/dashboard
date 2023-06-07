@@ -54,7 +54,7 @@ const UserCard = (props: UserCardProps) => {
                         <img
                           className="rounded-full mt-3 ml-2"
                           src={user.picture.large}
-                          alt="User Image"
+                          alt="User"
                         />
                       </div>
                       <div className="w-full ml-6 flex flex-col">
