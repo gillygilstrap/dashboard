@@ -8,7 +8,8 @@ import OrdersTable from "../OrdersTable";
 import { getRange } from "../../utils/getRange";
 import { getPreviousRange } from "../../utils/getPreviousRange";
 import { getPreviousCount } from "../../utils/getPreviousCount";
-import { chartTypes, timePeriods, standardDateFormat } from "../../constants";
+import { chartTypes, timePeriods, standardDateFormat, tabs } from "../../constants";
+import { isCurrentTab } from "../../utils/isCurrentTab";
 
 import { AppContext } from "./Layout";
 
@@ -46,7 +47,13 @@ const MainDashboard = () => {
     fakeStats,
     randomPreviousYearValues,
     orders,
+    currentTab,
+    setCurrentTab
   } = useContext(AppContext);
+
+  if(!isCurrentTab(currentTab, tabs.STATS)) {
+    setCurrentTab(tabs.STATS)
+  }
 
   // Methods
   const handDateRangeChange = (val: string) => {

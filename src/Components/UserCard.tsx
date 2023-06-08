@@ -127,7 +127,7 @@ const UserCard = (props: UserCardProps) => {
                           Address:
                         </div>
                         <div className="flex flex-col">
-                          <div className="pl-2 pt-1">{`${user.location.houseNumber} ${user.location.street}`}</div>
+                          <div className="pl-2 pt-0.5">{`${user.location.houseNumber} ${user.location.street}`}</div>
                           <div className="pl-2">{`${user.location.state}, ${user.location.country} ${user.location.zipcode}`}</div>
                         </div>
                       </div>
