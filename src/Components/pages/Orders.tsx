@@ -3,7 +3,7 @@ import { AppContext } from "./Layout";
 import { tabs } from "../../constants";
 import { isCurrentTab } from "../../utils/isCurrentTab";
 
-import OrdersTable from "../OrdersTable";
+import OrdersTable from "../tables/OrdersTable";
 
 const Orders = () => {
   const { orders, currentTab, setCurrentTab } = useContext(AppContext);

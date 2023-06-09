@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import UsersTable from "../../Components/UsersTable";
+import UsersTable from "../tables/UsersTable";
 
 import { AppContext } from "./Layout";
 import { User } from "../../utils/generateUsers";

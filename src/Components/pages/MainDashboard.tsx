@@ -3,7 +3,7 @@ import moment from "moment";
 
 import StatCard from "../StatCard";
 import ChartCard from "../ChartCard";
-import OrdersTable from "../OrdersTable";
+import OrdersTable from "../tables/OrdersTable";
 
 import { getRange } from "../../utils/getRange";
 import { getPreviousRange } from "../../utils/getPreviousRange";

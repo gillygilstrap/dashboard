@@ -1,4 +1,4 @@
-import { Order } from "../Components/OrdersTable";
+import { Order } from "../Components/tables/OrdersTable";
 import { standardDateFormat } from "../constants";
 import userDataJson from "../userData.json";
 import moment from "moment";

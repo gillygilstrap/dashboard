@@ -142,7 +142,7 @@ const Layout: React.FC = () => {
         <Header />
         <div className="main flex w-full top-20">
           <SideNav />
-          <div className="pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32">
+          <div className="pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32 min-h-screen">
             <Outlet />
           </div>
         </div>
