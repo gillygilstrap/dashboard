@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatMoney } from "../../utils/formatMoney";
+import Pagination from "./Pagination";
 
 export interface Order {
   name: string;
@@ -18,24 +19,73 @@ interface OrdersTableProps {
 const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
   const { orders, isMainDashboardInstance } = props;
   const navigate = useNavigate();
+  const ordersPerPage: number = 15;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentStart, setCurrentStart] = useState(1);
+  const [currentEnd, setCurrentEnd] = useState(ordersPerPage);
+  const [currentGroup, setCurrentGroup] = useState(
+    orders.slice(0, ordersPerPage)
+  );
+
+  useEffect(() => {
+    setCurrentGroup(pageGroups[currentPage - 1]);
+
+    // last page
+    if (currentPage === pageGroups.length) {
+      setCurrentEnd(orders.length);
+    } else {
+      // All other pages
+      setCurrentEnd(currentPage * ordersPerPage);
+    }
+    // Un needed warnings are thrown by the line below
+    // eslint-disable-next-line
+  }, [currentPage]);
+
+  useEffect(() => {
+    // Last page
+    if (currentPage === pageGroups.length) {
+      setCurrentStart(currentEnd - (currentGroup.length - 1));
+    } else {
+      // All other pages
+      setCurrentStart(currentEnd - (ordersPerPage - 1));
+    }
+
+    // Un needed warnings are thrown by the line below
+    // eslint-disable-next-line
+  }, [currentEnd]);
+
+  const pageGroups: Order[][] = [];
+
+  const numberOfPages = Math.floor(orders.length / ordersPerPage) + 1;
+
+  for (let i = 0; i < numberOfPages; i++) {
+    const startingPoint = i * ordersPerPage;
+    const userGroup = orders.slice(
+      startingPoint,
+      startingPoint + ordersPerPage
+    );
+    // const page = i + 1;
+    pageGroups.push(userGroup);
+  }
 
   const handleTableClickOnMainDashboard = () => {
-    if(isMainDashboardInstance) {
-      navigate(`/orders`)
+    if (isMainDashboardInstance) {
+      navigate(`/orders`);
 
       // Scroll to top of page
       window.scrollTo(0, 0);
     }
-  }
+  };
 
-  let sortedOrders = orders.sort(
-    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
-  );
+  // let sortedOrders = orders.sort(
+  //   (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
+  // );
 
-  // Time the rows down to 10 for the MainDashboard Screen
-  if (isMainDashboardInstance) {
-    sortedOrders = sortedOrders.slice(0, 9);
-  }
+  // // Time the rows down to 10 for the MainDashboard Screen
+  // if (isMainDashboardInstance) {
+  //   sortedOrders = sortedOrders.slice(0, 9);
+  // }
   return (
     <div
       className={`orders-table w-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl ${
@@ -87,7 +137,7 @@ const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {sortedOrders.map((order) => (
+              {currentGroup.map((order) => (
                 <tr key={order.email}>
                   <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-slate-700 sm:w-auto sm:max-w-none sm:pl-0">
                     {order.name}
@@ -97,7 +147,7 @@ const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
                         {order.date}
                       </dd>
                       <dt className="sr-only sm:hidden">Email</dt>
-                      <dd className="mt-1 truncate text-gray-500 sm:hidden">
+                      <dd className="mt-1 truncate text-gray-500 hidden sm:hidden">
                         {order.email}
                       </dd>
                     </dl>
@@ -119,6 +169,17 @@ const OrdersTable: React.FC<OrdersTableProps> = (props: OrdersTableProps) => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className={isMainDashboardInstance ? 'hidden' : ''}>
+        <Pagination
+          currentStart={currentStart}
+          currentEnd={currentEnd}
+          totalRowsCount={orders.length}
+          pageGroups={pageGroups}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );
