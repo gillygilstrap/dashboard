@@ -13,6 +13,7 @@ import { generateUsers } from "../../utils/generateUsers";
 
 import { Outlet } from "react-router-dom";
 import moment from "moment";
+import { getCurrentTab } from "../../utils/getCurrentTab";
 
 export const AppContext = createContext<any>(null);
 
@@ -83,6 +84,9 @@ const Layout: React.FC = () => {
   const [totalSalesRevenue, setTotalSalesRevenue] =
     useState(onLoadSalesRevenue);
 
+  // Tabs
+  const [currentTab, setCurrentTab] = useState(getCurrentTab());
+
   // AppContext Values
   const contextValue = {
     // Date Ranges
@@ -125,7 +129,11 @@ const Layout: React.FC = () => {
     orders,
      
     // Users
-    users
+    users,
+
+    // Tabs
+    currentTab,
+    setCurrentTab
   };
 
   return (
@@ -134,7 +142,7 @@ const Layout: React.FC = () => {
         <Header />
         <div className="main flex w-full top-20">
           <SideNav />
-          <div className="pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32">
+          <div className="pb-20 w-full px-8 pt-20 bg-slate-100 md:ml-32 min-h-screen">
             <Outlet />
           </div>
         </div>

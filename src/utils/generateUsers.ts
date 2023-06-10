@@ -34,7 +34,7 @@ export interface User {
 export const generateUsers = (): User[] => {
   const usersRaw = JSON.parse(JSON.stringify(userDataJson));
 
-  console.log(usersRaw)
+  // console.log(usersRaw)
 
   const users: User[] = usersRaw.map((u: any) => {
     const user = u.results[0];

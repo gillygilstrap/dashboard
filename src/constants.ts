@@ -12,3 +12,9 @@ export const chartTypes = {
 };
 
 export const standardDateFormat = `MM/DD/YYYY`;
+
+export const tabs = {
+  STATS: `STATS`,
+  ORDERS: `ORDERS`,
+  USERS: `USERS`
+}
