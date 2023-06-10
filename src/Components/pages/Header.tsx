@@ -64,7 +64,7 @@ export default function Header() {
       <div
         className={`${
           isHamburgerDropdownOpen ? "block" : "hidden"
-        } hamburger-dropdown w-full bg-slate-300 absolute mt-20 flex flex-col border-t-2 border-slate-400 text-xl tracking-wider`}
+        } hamburger-dropdown w-full bg-slate-300 absolute mt-20 flex flex-col border-t-2 border-slate-400 text-xl tracking-wider md:hidden`}
       >
         <NavLink
           to="/"
