@@ -17,49 +17,47 @@ const UsersTable: React.FC<UsersTableProps> = (props: UsersTableProps) => {
   const [currentGroup, setCurrentGroup] = useState(
     users.slice(0, usersPerPage)
   );
-  const [currentPage, setCurrentPage] = useState(1)
-  const [currentStart, setCurrentStart] = useState(1)
-  const [currentEnd, setCurrentEnd] = useState(usersPerPage)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentStart, setCurrentStart] = useState(1);
+  const [currentEnd, setCurrentEnd] = useState(usersPerPage);
 
   useEffect(() => {
-    setCurrentGroup(pageGroups[currentPage - 1])
+    setCurrentGroup(pageGroups[currentPage - 1]);
 
     // last page
-    if(currentPage === pageGroups.length) {
+    if (currentPage === pageGroups.length) {
       setCurrentEnd(users.length);
-    }
-    else {
+    } else {
       // All other pages
       setCurrentEnd(currentPage * usersPerPage);
     }
-
-  }, [currentPage])
+    // Un needed warnings are thrown by the line below
+    // eslint-disable-next-line
+  }, [currentPage]);
 
   useEffect(() => {
-
     // Last page
-    if(currentPage === pageGroups.length) {
-      setCurrentStart(currentEnd - (currentGroup.length - 1))
-    }
-    else {
+    if (currentPage === pageGroups.length) {
+      setCurrentStart(currentEnd - (currentGroup.length - 1));
+    } else {
       // All other pages
-      setCurrentStart(currentEnd - (usersPerPage - 1))
+      setCurrentStart(currentEnd - (usersPerPage - 1));
     }
 
-
-  }, [currentEnd])
+    // Un needed warnings are thrown by the line below
+    // eslint-disable-next-line
+  }, [currentEnd]);
 
   const pageGroups: User[][] = [];
-  
+
   const numberOfPages = Math.floor(users.length / usersPerPage) + 1;
-  
+
   for (let i = 0; i < numberOfPages; i++) {
     const startingPoint = i * usersPerPage;
     const userGroup = users.slice(startingPoint, startingPoint + usersPerPage);
     // const page = i + 1;
-    pageGroups.push(userGroup)
+    pageGroups.push(userGroup);
   }
-
 
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
@@ -156,7 +154,13 @@ const UsersTable: React.FC<UsersTableProps> = (props: UsersTableProps) => {
           </table>
         </div>
       </div>
-      <Pagination currentStart={currentStart} currentEnd={currentEnd} totalRowsCount={users.length} pageGroups={pageGroups} setCurrentPage={setCurrentPage}/>
+      <Pagination
+        currentStart={currentStart}
+        currentEnd={currentEnd}
+        totalRowsCount={users.length}
+        pageGroups={pageGroups}
+        setCurrentPage={setCurrentPage}
+      />
       <UserCard user={selectedUser} isOpen={isOpen} setIsOpen={handleOpen} />
     </div>
   );
