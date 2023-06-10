@@ -69,7 +69,7 @@ const UsersTable: React.FC<UsersTableProps> = (props: UsersTableProps) => {
   };
   return (
     <div
-      className={`orders-table w-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl ${
+      className={`users-table w-full pb-6 bg-white rounded-md shadow-md flex flex-col text-center text-6xl ${
         isMainDashboardInstance ? "hover:cursor-pointer hover:scale-1002" : ""
       }`}
     >
@@ -132,7 +132,7 @@ const UsersTable: React.FC<UsersTableProps> = (props: UsersTableProps) => {
                     <dl className="font-normal lg:hidden">
                       <dt className="sr-only sm:hidden">Email</dt>
                       <dd className="mt-1 truncate text-gray-500 sm:hidden">
-                        {user.email}
+                        {user.username}
                       </dd>
                     </dl>
                   </td>
@@ -160,6 +160,7 @@ const UsersTable: React.FC<UsersTableProps> = (props: UsersTableProps) => {
         totalRowsCount={users.length}
         pageGroups={pageGroups}
         setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
       />
       <UserCard user={selectedUser} isOpen={isOpen} setIsOpen={handleOpen} />
     </div>

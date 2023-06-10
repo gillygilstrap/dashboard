@@ -57,7 +57,7 @@ const UserCard = (props: UserCardProps) => {
                           alt="User"
                         />
                       </div>
-                      <div className="w-full ml-6 flex flex-col">
+                      <div className="w-full ml-6 flex flex-col hidden sm:block">
                         <span className=" tracking-wider text-3xl text-left font-bold pt-2">{`${user.firstName} ${user.lastName}`}</span>
                         <div className="flex mt-2 tracking-wider">
                           <div className=" text-lg font-bold my-auto tracking-wider">
@@ -83,38 +83,55 @@ const UserCard = (props: UserCardProps) => {
                     </div>
 
                     <div className="container px-2 mt-2 flex flex-col tracking-wider">
+                      <div className="w-full flex flex-col sm:hidden">
+                        <span className=" tracking-wider text-2xl text-left font-bold pt-2">{`${user.firstName} ${user.lastName}`}</span>
+                        <div className="flex mt-2 tracking-wider">
+                          <div className="text-base sm:text-lg font-bold my-auto tracking-wider">
+                            Username:
+                          </div>
+                          <div className="my-auto pl-2">{user.username}</div>
+                        </div>
+                        <div className="flex mt-1 tracking-wider">
+                          <div className="text-base sm:text-lg font-bold my-auto tracking-wider">
+                            Country:
+                          </div>
+                          <div className="my-auto pl-2">
+                            {user.location.country}
+                          </div>
+                        </div>
+                      </div>
                       <div className="flex mt-1">
-                        <div className=" text-lg font-bold my-auto">
+                        <div className="text-base sm:text-lg font-bold my-auto">
                           Date Of Birth:
                         </div>
                         <div className="my-auto pl-2">{user.dob}</div>
                       </div>
 
                       <div className="flex mt-1">
-                        <div className=" text-lg font-bold my-auto">Age:</div>
+                        <div className="text-base sm:text-lg font-bold my-auto">Age:</div>
                         <div className="my-auto pl-2">{user.age}</div>
                       </div>
 
                       <div className="flex mt-1">
-                        <div className=" text-lg font-bold my-auto">
+                        <div className="text-base sm:text-lg font-bold my-auto">
                           Gender:
                         </div>
-                        
+
                         <div className="my-auto pl-2">{user.gender}</div>
                       </div>
 
                       <div className="flex mt-1">
-                        <div className=" sm:hidden text-lg font-bold my-auto">
+                        <div className=" sm:hidden text-base sm:text-lg font-bold my-auto">
                           Email:
                         </div>
-                        <div className="hidden sm:block text-lg font-bold my-auto">
+                        <div className="hidden sm:block text-base sm:text-lg font-bold my-auto">
                           Email Address:
                         </div>
                         <div className="my-auto pl-2">{user.email}</div>
                       </div>
 
                       <div className="flex mt-1">
-                        <div className=" text-lg font-bold my-auto">
+                        <div className=" text-base sm:text-lg font-bold my-auto">
                           Registered:
                         </div>
                         <div className="my-auto pl-2">
@@ -123,9 +140,7 @@ const UserCard = (props: UserCardProps) => {
                       </div>
 
                       <div className="flex mt-1">
-                        <div className=" text-lg font-bold ">
-                          Address:
-                        </div>
+                        <div className="text-base sm:text-lg font-bold ">Address:</div>
                         <div className="flex flex-col">
                           <div className="pl-2 pt-0.5">{`${user.location.houseNumber} ${user.location.street}`}</div>
                           <div className="pl-2">{`${user.location.state}, ${user.location.country} ${user.location.zipcode}`}</div>
