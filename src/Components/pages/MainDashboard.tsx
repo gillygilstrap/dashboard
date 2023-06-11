@@ -108,6 +108,7 @@ const MainDashboard = () => {
     setLineChartData(buildLineChartData(fakeStats, currentRange, showPreviousDateRange));
     setBarChartData(buildBarChartData(fakeStats, currentRange, showPreviousDateRange));
 
+    // eslint-disable-next-line
   },[showPreviousDateRange, currentRange])
 
   return (
