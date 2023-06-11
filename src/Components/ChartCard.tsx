@@ -18,7 +18,7 @@ const getTitle = (type: string): string => {
     return `Total Website Traffic`;
   }
   if (type === chartTypes.BAR) {
-    return `Total Daily Revenue`;
+    return `Total Revenue`;
   }
   if (type === chartTypes.PIE) {
     return `Product Sales`;

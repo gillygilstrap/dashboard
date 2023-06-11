@@ -14,7 +14,6 @@ interface UserCardProps {
 
 const UserCard = (props: UserCardProps) => {
   const { user, isOpen, setIsOpen } = props;
-  //   console.log(`Inside of the User Card`, user);
 
   return (
     <div>
