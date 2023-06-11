@@ -15,6 +15,7 @@ import { Outlet } from "react-router-dom";
 import moment from "moment";
 import { getCurrentTab } from "../../utils/getCurrentTab";
 
+
 export const AppContext = createContext<any>(null);
 
 const fakeStats = generateStats();
@@ -41,12 +42,15 @@ initialRange.forEach((statsObj) => {
 });
 
 const onloadLineChartData = buildLineChartData(
-  initialRange,
-  timePeriods.THIRTY_DAYS
+  fakeStats,
+  timePeriods.THIRTY_DAYS,
+  false
 );
+
 const onloadBarChartData = buildBarChartData(
   initialRange,
-  timePeriods.THIRTY_DAYS
+  timePeriods.THIRTY_DAYS,
+  false
 );
 
 const Layout: React.FC = () => {

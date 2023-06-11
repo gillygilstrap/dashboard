@@ -12,6 +12,6 @@ export const randomYearValues = (): YearValues => {
         registrations : Math.floor(Math.random() * 300) + 1800,
         emailsCollected : Math.floor(Math.random() * 1500) + 2500,
         productSales : Math.floor(Math.random() * 150) + 800,
-        totalSales : Math.floor(Math.random() * 2000) + 17000,
+        totalSales : Math.floor(Math.random() * 100000) + 40000,
     }
 }

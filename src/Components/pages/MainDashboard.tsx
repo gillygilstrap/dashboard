@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import moment from "moment";
 
 import StatCard from "../StatCard";
@@ -10,6 +10,8 @@ import { getPreviousRange } from "../../utils/getPreviousRange";
 import { getPreviousCount } from "../../utils/getPreviousCount";
 import { chartTypes, timePeriods, standardDateFormat, tabs } from "../../constants";
 import { isCurrentTab } from "../../utils/isCurrentTab";
+import { buildLineChartData } from "../../utils/buildLineChartData";
+import { buildBarChartData } from "../../utils/buildBarChartData";
 
 import { AppContext } from "./Layout";
 
@@ -32,8 +34,6 @@ const MainDashboard = () => {
     setLineChartData,
     barChartData,
     setBarChartData,
-    onloadLineChartData,
-    onloadBarChartData,
     totalTraffic,
     setTotalTraffic,
     totalRegistrations,
@@ -56,16 +56,7 @@ const MainDashboard = () => {
   }
 
   // Methods
-  const handDateRangeChange = (val: string) => {
-    // ******************************************
-    // ******************************************
-    // ******************************************
-    // Temoporary TypeScript Warning Fix/Hack
-    setLineChartData(onloadLineChartData);
-    setBarChartData(onloadBarChartData);
-    // ******************************************
-    // ******************************************
-    // ******************************************
+  const handleDateRateChange = (val: string) => {
 
     setCurrentRange(val);
     const currentStatsInRange = getRange(fakeStats, val);
@@ -108,7 +99,16 @@ const MainDashboard = () => {
     setTotalEmailsCollected(totalEmailsCollected);
     setTotalProductsSoldCount(totalProductsSoldCount);
     setTotalSalesRevenue(totalSalesRevenue);
+
+    setLineChartData(buildLineChartData(fakeStats, val, showPreviousDateRange));
+    setBarChartData(buildBarChartData(fakeStats, val, showPreviousDateRange));
   };
+
+  useEffect(() => {
+    setLineChartData(buildLineChartData(fakeStats, currentRange, showPreviousDateRange));
+    setBarChartData(buildBarChartData(fakeStats, currentRange, showPreviousDateRange));
+
+  },[showPreviousDateRange, currentRange])
 
   return (
     <div className="display-board flex flex-col">
@@ -128,7 +128,7 @@ const MainDashboard = () => {
             id="timePeriod"
             name="timePeriod"
             className="mt-2 w-full w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:cursor-pointer"
-            onChange={(e) => handDateRangeChange(e.target.value)}
+            onChange={(e) => handleDateRateChange(e.target.value)}
             value={currentRange}
           >
             <option value={timePeriods.TODAY}>Today</option>
